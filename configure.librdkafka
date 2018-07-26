@@ -67,7 +67,7 @@ void foo (void) {
                   "#include <zlib.h>"
     mkl_lib_check "libcrypto" "" disable CC "-lcrypto"
 
-    if mkl_lib_check "libm" "" disable CC "-lm" \
+    if mkl_lib_check "openlibm" "" disable CC "-lm" \
                      "#include <math.h>"; then
         mkl_allvar_set WITH_HDRHISTOGRAM WITH_HDRHISTOGRAM y
     fi
