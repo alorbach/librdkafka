@@ -35,6 +35,8 @@ mkl_toggle_option "Feature" ENABLE_LZ4_EXT "--enable-lz4" "Enable external LZ4 l
 mkl_toggle_option "Feature" ENABLE_SSL "--enable-ssl" "Enable SSL support" "y"
 mkl_toggle_option "Feature" ENABLE_SASL "--enable-sasl" "Enable SASL support with Cyrus libsasl2" "y"
 
+mkl_toggle_option "Feature" ENABLE_HDR_HIST "--enable-hdrhistogram" "Enable HDR Histogram support" "y"
+
 
 function checks {
 
@@ -88,9 +90,11 @@ void foo (void) {
                   "#include <zlib.h>"
     mkl_lib_check "libcrypto" "" disable CC "-lcrypto"
 
-    if mkl_lib_check "libm" "" disable CC "-lm" \
+    if [[ "$ENABLE_HDR_HIST" == "y" ]]; then
+      if mkl_lib_check "libm" "" disable CC "-lm" \
                      "#include <math.h>"; then
-        mkl_allvar_set WITH_HDRHISTOGRAM WITH_HDRHISTOGRAM y
+          mkl_allvar_set WITH_HDRHISTOGRAM WITH_HDRHISTOGRAM y
+      fi
     fi
 
     if [[ "$ENABLE_LZ4_EXT" == "y" ]]; then
